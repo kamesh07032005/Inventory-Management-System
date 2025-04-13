@@ -36,8 +36,22 @@ export class SupplierService {
   }
 
   getSupplier(id: number): Observable<Supplier | undefined> {
+    // First check if the ID is valid
+    if (!id || isNaN(id)) {
+      console.error('Invalid supplier ID:', id);
+      return of(undefined);
+    }
+    
     const supplier = this.suppliers.find(supplier => supplier.id === id);
-    return of(supplier);
+    
+    // Log when supplier is not found to help with debugging
+    if (!supplier) {
+      console.warn(`Supplier with ID ${id} not found`);
+      // You could also emit an event or use a notification service here
+      // to provide more context about the error
+    }
+    
+    return of(supplier || undefined);
   }
 
   addSupplier(supplier: Supplier): Observable<Supplier> {
@@ -53,6 +67,13 @@ export class SupplierService {
   }
 
   updateSupplier(updatedSupplier: Supplier): Observable<Supplier> {
+    // Validate supplier ID
+    if (!updatedSupplier.id || isNaN(updatedSupplier.id)) {
+      console.error('Invalid supplier ID for update:', updatedSupplier.id);
+      // Return the supplier but log the error
+      return of(updatedSupplier);
+    }
+    
     const index = this.suppliers.findIndex(supplier => supplier.id === updatedSupplier.id);
     if (index !== -1) {
       this.suppliers[index] = {
@@ -68,6 +89,9 @@ export class SupplierService {
       
       return of(this.suppliers[index]);
     }
+    
+    // Log when trying to update a non-existent supplier
+    console.warn(`Attempted to update non-existent supplier with ID ${updatedSupplier.id}`);
     return of(updatedSupplier); // Return the supplier even if not found
   }
 
