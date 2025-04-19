@@ -1,0 +1,76 @@
+<div class="home-container">
+  <div class="header">
+    <h1>Inventory Management System</h1>
+    <p>Track stock levels, manage suppliers, and update inventory</p>
+  </div>
+
+  <div class="dashboard-cards">
+    <mat-card class="dashboard-card inventory-card" (click)="navigateTo('/inventory')">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>inventory_2</mat-icon> Inventory Management
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>View, add, update, and delete inventory items</p>
+        <ul>
+          <li>Track stock levels</li>
+          <li>Filter by category</li>
+          <li>Manage item details</li>
+        </ul>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="navigateTo('/inventory')">View Inventory</button>
+        <button mat-button color="accent" (click)="navigateTo('/inventory/new')">Add New Item</button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="dashboard-card supplier-card" (click)="navigateTo('/suppliers')">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>business</mat-icon> Supplier Management
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>View, add, update, and delete suppliers</p>
+        <ul>
+          <li>Track supplier details</li>
+          <li>Manage contact information</li>
+          <li>Link suppliers to inventory</li>
+        </ul>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="navigateTo('/suppliers')">View Suppliers</button>
+        <button mat-button color="accent" (click)="navigateTo('/suppliers/new')">Add New Supplier</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <div class="quick-stats">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Quick Statistics</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-value">{{inventoryCount}}</div>
+            <div class="stat-label">Inventory Items</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">{{supplierCount}}</div>
+            <div class="stat-label">Suppliers</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">{{lowStockCount}}</div>
+            <div class="stat-label">Low Stock Items</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">{{outOfStockCount}}</div>
+            <div class="stat-label">Out of Stock</div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,84 @@
+<div class="supplier-form-container glass-container">
+  <div class="form-header">
+    <h2 class="page-title">{{ isEditMode ? 'Edit Supplier' : 'Add New Supplier' }}</h2>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-spinner">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+
+  <div class="glass-card form-card" *ngIf="!isLoading">
+    <form [formGroup]="supplierForm" (ngSubmit)="onSubmit()" class="supplier-form">
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Company Name</mat-label>
+          <input matInput formControlName="name" placeholder="Enter company name">
+          <mat-error *ngIf="supplierForm.get('name')?.invalid && supplierForm.get('name')?.touched">
+            {{ getErrorMessage('name') }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Contact Person</mat-label>
+          <input matInput formControlName="contactName" placeholder="Enter contact person name">
+          <mat-error *ngIf="supplierForm.get('contactName')?.invalid && supplierForm.get('contactName')?.touched">
+            {{ getErrorMessage('contactName') }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" placeholder="Enter email address" type="email">
+          <mat-icon matSuffix>email</mat-icon>
+          <mat-error *ngIf="supplierForm.get('email')?.invalid && supplierForm.get('email')?.touched">
+            {{ getErrorMessage('email') }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Phone</mat-label>
+          <input matInput formControlName="phone" placeholder="Enter phone number">
+          <mat-icon matSuffix>phone</mat-icon>
+          <mat-error *ngIf="supplierForm.get('phone')?.invalid && supplierForm.get('phone')?.touched">
+            {{ getErrorMessage('phone') }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline" class="form-field full-width">
+        <mat-label>Address</mat-label>
+        <textarea matInput formControlName="address" placeholder="Enter address" rows="3"></textarea>
+        <mat-icon matSuffix>location_on</mat-icon>
+        <mat-error *ngIf="supplierForm.get('address')?.invalid && supplierForm.get('address')?.touched">
+          {{ getErrorMessage('address') }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field full-width">
+        <mat-label>Supplied Items</mat-label>
+        <mat-chip-grid #chipGrid aria-label="Enter supplied items">
+          <mat-chip-row *ngFor="let item of supplierForm.get('suppliedItems')?.value || []; let i = index"
+                       (removed)="removeSuppliedItem(i)">
+            {{item}}
+            <button matChipRemove [attr.aria-label]="'remove ' + item">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
+          <input placeholder="Add new item..."
+                 [matChipInputFor]="chipGrid"
+                 (matChipInputTokenEnd)="addSuppliedItem($event)">
+        </mat-chip-grid>
+      </mat-form-field>
+
+      <div class="form-actions">
+        <button mat-button type="button" (click)="onCancel()" [disabled]="isSubmitting">Cancel</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="isSubmitting">
+          <mat-icon>save</mat-icon>
+          {{ isSubmitting ? 'Saving...' : (isEditMode ? 'Update Supplier' : 'Add Supplier') }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

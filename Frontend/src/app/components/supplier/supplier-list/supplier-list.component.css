@@ -1,0 +1,148 @@
+.supplier-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.glass-container {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+.supplier-header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.page-title {
+  color: #3f51b5;
+  margin: 0 0 20px 0;
+  font-size: 28px;
+  font-weight: 500;
+}
+
+.header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.search-field {
+  flex: 1;
+  min-width: 200px;
+  max-width: 500px;
+}
+
+.add-button {
+  height: 45px;
+  border-radius: 25px;
+  padding: 0 20px;
+  font-weight: 500;
+  transition: transform 0.2s;
+}
+
+.add-button:hover {
+  transform: translateY(-2px);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative;
+}
+
+.table-container {
+  position: relative;
+  min-height: 400px;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-mdc-row:hover {
+  background-color: rgba(63, 81, 181, 0.04);
+}
+
+.mat-mdc-header-cell {
+  font-weight: 600;
+  color: #3f51b5;
+}
+
+.mat-mdc-cell {
+  padding: 8px 0;
+}
+
+.loading-spinner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.7);
+  z-index: 1;
+  border-radius: 10px;
+}
+
+.no-data-cell {
+  padding: 40px 0 !important;
+}
+
+.no-data-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.no-data-message mat-icon {
+  font-size: 24px;
+  height: 24px;
+  width: 24px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .supplier-container {
+    padding: 10px;
+  }
+  
+  .header-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .search-field {
+    max-width: 100%;
+  }
+  
+  .table-container {
+    overflow-x: auto;
+  }
+}
+
+/* Success and error snackbar styles */
+::ng-deep .success-snackbar {
+  background: #4caf50;
+  color: white;
+}
+
+::ng-deep .error-snackbar {
+  background: #f44336;
+  color: white;
+}
