@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -6,11 +6,18 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { InventoryItem, InventoryFilter, StockLevel } from '../../../models/inventory.model';
 import { InventoryService } from '../../../services/inventory.service';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-inventory-list',
   templateUrl: './inventory-list.component.html',
-  styleUrls: ['./inventory-list.component.css']
+  styleUrls: ['./inventory-list.component.css'],
+  animations: [
+    trigger('fadeInOut', [
+      state('void', style({ opacity: 0, transform: 'translateY(10px)' })),
+      transition('void <=> *', animate('300ms ease-in-out'))
+    ])
+  ]
 })
 export class InventoryListComponent implements OnInit {
   displayedColumns: string[] = ['id', 'name', 'category', 'quantity', 'stockLevel', 'supplierName', 'actions'];
@@ -88,17 +95,30 @@ export class InventoryListComponent implements OnInit {
 
   deleteItem(id: number): void {
     if (confirm('Are you sure you want to delete this item?')) {
+      this.isLoading = true;
       this.inventoryService.deleteItem(id).subscribe(success => {
+        this.isLoading = false;
         if (success) {
           this.snackBar.open('Item deleted successfully', 'Close', {
-            duration: 3000
+            duration: 3000,
+            panelClass: ['success-snackbar'],
+            verticalPosition: 'top'
           });
           this.loadInventory();
         } else {
           this.snackBar.open('Failed to delete item', 'Close', {
-            duration: 3000
+            duration: 3000,
+            panelClass: ['error-snackbar'],
+            verticalPosition: 'top'
           });
         }
+      }, error => {
+        this.isLoading = false;
+        this.snackBar.open('Error deleting item: ' + error.message, 'Close', {
+          duration: 4000,
+          panelClass: ['error-snackbar'],
+          verticalPosition: 'top'
+        });
       });
     }
   }

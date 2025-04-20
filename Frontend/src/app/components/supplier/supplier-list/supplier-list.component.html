@@ -1,11 +1,12 @@
-<div class="supplier-container glass-container">
+<!-- supplier-list.component.html -->
+<div class="supplier-container">
   <div class="supplier-header">
     <h2 class="page-title">Supplier Management</h2>
     <div class="header-actions">
       <mat-form-field appearance="outline" class="search-field">
         <mat-label>Search Suppliers</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Search by name, email, etc.">
-        <mat-icon matSuffix>search</mat-icon>
+        <mat-icon matSuffix class="search-icon">search</mat-icon>
       </mat-form-field>
       <button mat-raised-button color="accent" class="add-button" (click)="addNewSupplier()">
         <mat-icon>add</mat-icon> Add New Supplier
@@ -16,68 +17,81 @@
   <div class="glass-card table-container">
     <div *ngIf="isLoading" class="loading-spinner">
       <mat-spinner diameter="40"></mat-spinner>
+      <span class="loading-text">Loading suppliers...</span>
     </div>
 
-    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z0">
+    <table mat-table [dataSource]="dataSource" matSort class="supplier-table">
       <!-- Name Column -->
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Company Name </th>
-        <td mat-cell *matCellDef="let supplier"> {{supplier.name}} </td>
+        <td mat-cell *matCellDef="let supplier" class="company-name-cell"> 
+          <div class="cell-content">{{supplier.name}}</div>
+        </td>
       </ng-container>
 
       <!-- Contact Name Column -->
       <ng-container matColumnDef="contactName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Contact Person </th>
-        <td mat-cell *matCellDef="let supplier"> {{supplier.contactName}} </td>
+        <td mat-cell *matCellDef="let supplier">
+          <div class="cell-content">{{supplier.contactName}}</div>
+        </td>
       </ng-container>
 
       <!-- Email Column -->
       <ng-container matColumnDef="email">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
-        <td mat-cell *matCellDef="let supplier"> 
-          <a [href]="'mailto:' + supplier.email">{{supplier.email}}</a>
+        <td mat-cell *matCellDef="let supplier">
+          <div class="cell-content">
+            <a [href]="'mailto:' + supplier.email" class="email-link">{{supplier.email}}</a>
+          </div>
         </td>
       </ng-container>
 
       <!-- Phone Column -->
       <ng-container matColumnDef="phone">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone </th>
-        <td mat-cell *matCellDef="let supplier"> {{supplier.phone}} </td>
+        <td mat-cell *matCellDef="let supplier">
+          <div class="cell-content">{{supplier.phone}}</div>
+        </td>
       </ng-container>
 
       <!-- Address Column -->
       <ng-container matColumnDef="address">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Address </th>
-        <td mat-cell *matCellDef="let supplier"> {{supplier.address}} </td>
+        <td mat-cell *matCellDef="let supplier">
+          <div class="cell-content address-cell">{{supplier.address}}</div>
+        </td>
       </ng-container>
 
       <!-- Actions Column -->
       <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef> Actions </th>
-        <td mat-cell *matCellDef="let supplier">
-          <button mat-icon-button color="primary" matTooltip="Edit Supplier" (click)="editSupplier(supplier.id!)">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-icon-button color="warn" matTooltip="Delete Supplier" (click)="deleteSupplier(supplier.id!)">
-            <mat-icon>delete</mat-icon>
-          </button>
+        <th mat-header-cell *matHeaderCellDef class="actions-header"> Actions </th>
+        <td mat-cell *matCellDef="let supplier" class="actions-cell">
+          <div class="action-buttons">
+            <button mat-icon-button color="primary" matTooltip="Edit Supplier" class="edit-button" (click)="editSupplier(supplier.id!)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" matTooltip="Delete Supplier" class="delete-button" (click)="deleteSupplier(supplier.id!)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
         </td>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="supplier-row"></tr>
 
       <!-- Row shown when there is no matching data. -->
       <tr class="mat-row" *matNoDataRow>
         <td class="mat-cell no-data-cell" colspan="6">
           <div class="no-data-message">
-            <mat-icon>info</mat-icon>
-            <span>No suppliers found</span>
+            <mat-icon>sentiment_dissatisfied</mat-icon>
+            <span>No suppliers found matching your search</span>
           </div>
         </td>
       </tr>
     </table>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons aria-label="Select page of suppliers"></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons aria-label="Select page of suppliers" class="supplier-paginator"></mat-paginator>
   </div>
 </div>

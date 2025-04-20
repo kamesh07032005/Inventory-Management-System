@@ -1,76 +1,108 @@
 <div class="home-container">
   <div class="header">
+   
     <h1>Inventory Management System</h1>
-    <p>Track stock levels, manage suppliers, and update inventory</p>
+    <p>Smart inventory tracking & supplier management solution</p>
+  </div>
+
+  <div class="dashboard-summary">
+    <div class="welcome-message">
+      <h2>Welcome to your Dashboard</h2>
+      <p>Monitor your inventory metrics and manage your business operations efficiently</p>
+    </div>
+  </div>
+
+  <div class="stats-overview">
+    <div class="stat-card inventory-stat">
+      <div class="stat-icon-container">
+        <mat-icon>inventory_2</mat-icon>
+      </div>
+      <div class="stat-details">
+        <div class="stat-value">{{inventoryCount}}</div>
+        <div class="stat-label">Inventory Items</div>
+      </div>
+    </div>
+    
+    <div class="stat-card supplier-stat">
+      <div class="stat-icon-container">
+        <mat-icon>business</mat-icon>
+      </div>
+      <div class="stat-details">
+        <div class="stat-value">{{supplierCount}}</div>
+        <div class="stat-label">Suppliers</div>
+      </div>
+    </div>
+    
+    <div class="stat-card low-stock-stat">
+      <div class="stat-icon-container">
+        <mat-icon>warning</mat-icon>
+      </div>
+      <div class="stat-details">
+        <div class="stat-value">{{lowStockCount}}</div>
+        <div class="stat-label">Low Stock Items</div>
+      </div>
+    </div>
+    
+    <div class="stat-card out-stock-stat">
+      <div class="stat-icon-container">
+        <mat-icon>error_outline</mat-icon>
+      </div>
+      <div class="stat-details">
+        <div class="stat-value">{{outOfStockCount}}</div>
+        <div class="stat-label">Out of Stock</div>
+      </div>
+    </div>
   </div>
 
   <div class="dashboard-cards">
-    <mat-card class="dashboard-card inventory-card" (click)="navigateTo('/inventory')">
-      <mat-card-header>
-        <mat-card-title>
-          <mat-icon>inventory_2</mat-icon> Inventory Management
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>View, add, update, and delete inventory items</p>
-        <ul>
-          <li>Track stock levels</li>
-          <li>Filter by category</li>
-          <li>Manage item details</li>
-        </ul>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-raised-button color="primary" (click)="navigateTo('/inventory')">View Inventory</button>
-        <button mat-button color="accent" (click)="navigateTo('/inventory/new')">Add New Item</button>
-      </mat-card-actions>
-    </mat-card>
-
-    <mat-card class="dashboard-card supplier-card" (click)="navigateTo('/suppliers')">
-      <mat-card-header>
-        <mat-card-title>
-          <mat-icon>business</mat-icon> Supplier Management
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>View, add, update, and delete suppliers</p>
-        <ul>
-          <li>Track supplier details</li>
-          <li>Manage contact information</li>
-          <li>Link suppliers to inventory</li>
-        </ul>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-raised-button color="primary" (click)="navigateTo('/suppliers')">View Suppliers</button>
-        <button mat-button color="accent" (click)="navigateTo('/suppliers/new')">Add New Supplier</button>
-      </mat-card-actions>
-    </mat-card>
-  </div>
-
-  <div class="quick-stats">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Quick Statistics</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="stats-grid">
-          <div class="stat-item">
-            <div class="stat-value">{{inventoryCount}}</div>
-            <div class="stat-label">Inventory Items</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-value">{{supplierCount}}</div>
-            <div class="stat-label">Suppliers</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-value">{{lowStockCount}}</div>
-            <div class="stat-label">Low Stock Items</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-value">{{outOfStockCount}}</div>
-            <div class="stat-label">Out of Stock</div>
-          </div>
+    <div class="feature-card inventory-card" (click)="navigateTo('/inventory')">
+      <div class="card-header">
+        <div class="card-icon">
+          <mat-icon>inventory_2</mat-icon>
         </div>
-      </mat-card-content>
-    </mat-card>
+        <h3>Inventory Management</h3>
+      </div>
+      <div class="card-content">
+        <p>Comprehensive inventory tracking and management</p>
+        <ul class="feature-list">
+          <li><mat-icon class="mini-icon">check_circle</mat-icon> Track stock levels</li>
+          <li><mat-icon class="mini-icon">check_circle</mat-icon> Filter by category</li>
+          <li><mat-icon class="mini-icon">check_circle</mat-icon> Manage item details</li>
+        </ul>
+      </div>
+      <div class="card-actions">
+        <button mat-raised-button color="primary" (click)="navigateTo('/inventory')">
+          <mat-icon>visibility</mat-icon> View Inventory
+        </button>
+        <button mat-stroked-button color="accent" (click)="navigateTo('/inventory/new')">
+          <mat-icon>add</mat-icon> Add Item
+        </button>
+      </div>
+    </div>
+
+    <div class="feature-card supplier-card" (click)="navigateTo('/suppliers')">
+      <div class="card-header">
+        <div class="card-icon">
+          <mat-icon>business</mat-icon>
+        </div>
+        <h3>Supplier Management</h3>
+      </div>
+      <div class="card-content">
+        <p>Efficiently manage your supplier relationships</p>
+        <ul class="feature-list">
+          <li><mat-icon class="mini-icon">check_circle</mat-icon> Track supplier details</li>
+          <li><mat-icon class="mini-icon">check_circle</mat-icon> Manage contact information</li>
+          <li><mat-icon class="mini-icon">check_circle</mat-icon> Link suppliers to inventory</li>
+        </ul>
+      </div>
+      <div class="card-actions">
+        <button mat-raised-button color="primary" (click)="navigateTo('/suppliers')">
+          <mat-icon>visibility</mat-icon> View Suppliers
+        </button>
+        <button mat-stroked-button color="accent" (click)="navigateTo('/suppliers/new')">
+          <mat-icon>add</mat-icon> Add Supplier
+        </button>
+      </div>
+    </div>
   </div>
 </div>

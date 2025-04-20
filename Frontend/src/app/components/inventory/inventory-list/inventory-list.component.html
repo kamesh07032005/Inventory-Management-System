@@ -10,7 +10,7 @@
 
   <div class="glass-card table-container">
     <div *ngIf="isLoading" class="loading-spinner">
-      <mat-spinner diameter="40"></mat-spinner>
+      <mat-spinner diameter="40" color="accent"></mat-spinner>
     </div>
     
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z0">
@@ -56,10 +56,10 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Actions </th>
         <td mat-cell *matCellDef="let item">
-          <button mat-icon-button color="primary" (click)="editItem(item.id)">
+          <button mat-icon-button color="primary" (click)="editItem(item.id)" matTooltip="Edit Item">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button color="warn" (click)="deleteItem(item.id)">
+          <button mat-icon-button color="warn" (click)="deleteItem(item.id)" matTooltip="Delete Item">
             <mat-icon>delete</mat-icon>
           </button>
         </td>
@@ -69,8 +69,10 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
       <!-- Row shown when there is no matching data. -->
-      <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="7">No inventory items found</td>
+      <tr class="mat-row mat-no-data-row" *matNoDataRow>
+        <td class="mat-cell" colspan="7">
+          <mat-icon>inventory_2</mat-icon> No inventory items found
+        </td>
       </tr>
     </table>
 
