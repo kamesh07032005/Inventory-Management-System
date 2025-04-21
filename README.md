@@ -119,15 +119,15 @@ Inventory Management System is a modern platform that bridges the gap between in
 
 ## 📊 API Reference
 
-### Product Endpoints
+### Inventory Endpoints
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET    | `/api/products` | Get all products |
-| POST   | `/api/products` | Create a new product |
-| GET    | `/api/products/:id` | Get a specific product |
-| PUT    | `/api/products/:id` | Update product details |
-| DELETE | `/api/products/:id` | Delete a product |
+| GET    | `/api/inventory` | Get all inventory items with supplier information |
+| POST   | `/api/inventory` | Create a new inventory item |
+| GET    | `/api/inventory/:id` | Get a specific inventory item by ID |
+| PUT    | `/api/inventory/:id` | Update inventory item details |
+| DELETE | `/api/inventory/:id` | Delete an inventory item |
 
 ### Supplier Endpoints
 
@@ -135,29 +135,21 @@ Inventory Management System is a modern platform that bridges the gap between in
 |--------|----------|-------------|
 | GET    | `/api/suppliers` | Get all suppliers |
 | POST   | `/api/suppliers` | Create a new supplier |
-| GET    | `/api/suppliers/:id` | Get a specific supplier |
+| GET    | `/api/suppliers/:id` | Get a specific supplier by ID with related inventory items |
 | PUT    | `/api/suppliers/:id` | Update supplier details |
 | DELETE | `/api/suppliers/:id` | Delete a supplier |
-
-### Order Endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET    | `/api/orders` | Get all orders |
-| POST   | `/api/orders` | Create a new order |
-| GET    | `/api/orders/:id` | Get a specific order |
-| PUT    | `/api/orders/:id` | Update order details |
-| DELETE | `/api/orders/:id` | Delete an order |
 
 ## 📋 Application Routes
 
 | Path | Component | Description |
 |------|-----------|-------------|
-| `/products` | ProductListComponent | Main page displaying all products |
-| `/products/new` | ProductFormComponent | Form to add a new product |
-| `/products/edit/:id` | ProductFormComponent | Edit an existing product |
-| `/products/:id` | ProductDetailsComponent | View detailed product information |
+| `/inventory` | InventoryListComponent | Main page displaying all inventory items |
+| `/inventory/new` | InventoryFormComponent | Form to add a new inventory item |
+| `/inventory/edit/:id` | InventoryFormComponent | Edit an existing inventory item |
+| `/inventory/:id` | InventoryDetailsComponent | View detailed inventory information |
 | `/suppliers` | SupplierListComponent | View all suppliers |
-| `/orders` | OrderListComponent | View all orders |
+| `/suppliers/new` | SupplierFormComponent | Form to add a new supplier |
+| `/suppliers/edit/:id` | SupplierFormComponent | Edit an existing supplier |
+| `/suppliers/:id` | SupplierDetailsComponent | View detailed supplier information |
 
 
