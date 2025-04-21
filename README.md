@@ -119,8 +119,10 @@ Inventory Management System is a modern platform that bridges the gap between in
 
 ## 📊 API Reference
 
+Please the the detailed API documentation : https://github.com/kamesh07032005/Inventory-Management-System/tree/main/Backend#readme
+
  The backend will be available at http://localhost:3000
- 
+
 ### Inventory Endpoints
 
 | Method | Endpoint | Description |
