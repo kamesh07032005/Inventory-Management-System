@@ -118,8 +118,7 @@ Inventory Management System is a modern platform that bridges the gap between in
    The application will be available at http://localhost:4200
 
 ## 📊 API Reference
-
-Please the the detailed API documentation : https://github.com/kamesh07032005/Inventory-Management-System/tree/main/Backend#readme
+For detailed API documentation, please refer to our [API Documentation](https://github.com/kamesh07032005/Inventory-Management-System/tree/main/Backend#readme)
 
  The backend will be available at http://localhost:3000
 
