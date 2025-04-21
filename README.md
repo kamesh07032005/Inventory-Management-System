@@ -119,6 +119,8 @@ Inventory Management System is a modern platform that bridges the gap between in
 
 ## 📊 API Reference
 
+ The backend will be available at http://localhost:3000
+ 
 ### Inventory Endpoints
 
 | Method | Endpoint | Description |
