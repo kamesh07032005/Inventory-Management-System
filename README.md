@@ -8,9 +8,9 @@ A comprehensive full-stack web application for managing inventory, suppliers, pr
 ## 👋 Meet Our Team
 
 This project is proudly developed by:
-- **Team Representative**
-- **Team Member 1**
-- **Team Member 2**
+  Kamesh M
+  Roshne priya V
+  Dharashnin N
 
 We're excited to bring you this inventory management application and welcome your feedback!
 

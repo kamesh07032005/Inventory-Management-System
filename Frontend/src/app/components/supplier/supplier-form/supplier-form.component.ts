@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatChipInputEvent } from '@angular/material/chips';
 import { Supplier } from '../../../models/supplier.model';
 import { SupplierService } from '../../../services/supplier.service';
 
@@ -28,7 +27,7 @@ export class SupplierFormComponent implements OnInit {
     this.supplierForm = this.createForm();
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.supplierId = this.route.snapshot.params['id'];
     if (this.supplierId) {
       this.isEditMode = true;
@@ -53,17 +52,7 @@ export class SupplierFormComponent implements OnInit {
         ],
       ],
       address: ['', Validators.maxLength(200)],
-      suppliedItems: [[]],
     });
-  }
-
-  private showErrorAndRedirect(message: string) {
-    this.isLoading = false;
-    this.snackBar.open(message, 'Close', {
-      duration: 3000,
-      panelClass: 'error-snackbar',
-    });
-    this.router.navigate(['/suppliers']);
   }
 
   loadSupplierData(id: number): void {
@@ -83,7 +72,6 @@ export class SupplierFormComponent implements OnInit {
             email: supplier.email,
             phone: supplier.phone,
             address: supplier.address || '',
-            suppliedItems: supplier.suppliedItems || [],
           });
         } else {
           this.showErrorAndRedirect('Supplier not found');
@@ -98,7 +86,6 @@ export class SupplierFormComponent implements OnInit {
 
   onSubmit() {
     if (this.supplierForm.valid) {
-      // Add confirmation before submission
       if (
         !confirm(
           this.isEditMode
@@ -108,7 +95,7 @@ export class SupplierFormComponent implements OnInit {
       ) {
         return;
       }
-      
+
       this.saveSupplier();
     } else {
       this.markFormGroupTouched(this.supplierForm);
@@ -125,15 +112,18 @@ export class SupplierFormComponent implements OnInit {
 
   saveSupplier(): void {
     if (this.supplierForm.invalid) {
-      // Mark all fields as touched to trigger validation messages
-      Object.keys(this.supplierForm.controls).forEach(key => {
+      Object.keys(this.supplierForm.controls).forEach((key) => {
         const control = this.supplierForm.get(key);
         control?.markAsTouched();
       });
-      this.snackBar.open('Please fix the form errors before submitting', 'Close', {
-        duration: 5000,
-        panelClass: ['error-snackbar']
-      });
+      this.snackBar.open(
+        'Please fix the form errors before submitting',
+        'Close',
+        {
+          duration: 5000,
+          panelClass: ['error-snackbar'],
+        }
+      );
       return;
     }
 
@@ -147,47 +137,55 @@ export class SupplierFormComponent implements OnInit {
       email: formValue.email.trim(),
       phone: formValue.phone.trim(),
       address: formValue.address ? formValue.address.trim() : '',
-      suppliedItems: formValue.suppliedItems
     };
 
     // Add or update based on mode
     if (this.isEditMode && this.supplierId) {
       this.supplierService.updateSupplier(this.supplierId, supplier).subscribe(
-        updatedSupplier => {
+        (updatedSupplier) => {
           this.isSubmitting = false;
           this.snackBar.open('Supplier updated successfully', 'Close', {
-            duration: 3000
+            duration: 3000,
           });
           this.router.navigate(['/suppliers']);
         },
-        error => {
+        (error) => {
           this.isSubmitting = false;
           this.snackBar.open('Error updating supplier', 'Close', {
             duration: 5000,
-            panelClass: ['error-snackbar']
+            panelClass: ['error-snackbar'],
           });
           console.error('Error updating supplier:', error);
         }
       );
     } else {
       this.supplierService.addSupplier(supplier).subscribe(
-        newSupplier => {
+        (newSupplier) => {
           this.isSubmitting = false;
           this.snackBar.open('Supplier added successfully', 'Close', {
-            duration: 3000
+            duration: 3000,
           });
           this.router.navigate(['/suppliers']);
         },
-        error => {
+        (error) => {
           this.isSubmitting = false;
           this.snackBar.open('Error adding supplier', 'Close', {
             duration: 5000,
-            panelClass: ['error-snackbar']
+            panelClass: ['error-snackbar'],
           });
           console.error('Error adding supplier:', error);
         }
       );
     }
+  }
+
+  private showErrorAndRedirect(message: string) {
+    this.isLoading = false;
+    this.snackBar.open(message, 'Close', {
+      duration: 3000,
+      panelClass: 'error-snackbar',
+    });
+    this.router.navigate(['/suppliers']);
   }
 
   markFormGroupTouched(formGroup: FormGroup): void {
@@ -199,7 +197,7 @@ export class SupplierFormComponent implements OnInit {
     });
   }
 
-  onCancel(): void {
+  onCancel() {
     this.router.navigate(['/suppliers']);
   }
 
@@ -211,33 +209,15 @@ export class SupplierFormComponent implements OnInit {
     if (control?.hasError('email')) {
       return 'Please enter a valid email address';
     }
-    if (control?.hasError('pattern')) {
-      return 'Please enter a valid phone number';
-    }
     if (control?.hasError('maxlength')) {
       const maxLength = control.errors?.['maxlength'].requiredLength;
       return `Maximum length is ${maxLength} characters`;
     }
-    return '';
-  }
-
-  addSuppliedItem(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-    if (value) {
-      const currentItems = this.supplierForm.get('suppliedItems')?.value || [];
-      this.supplierForm.patchValue({
-        suppliedItems: [...currentItems, value],
-      });
+    if (control?.hasError('pattern')) {
+      if (controlName === 'phone') {
+        return 'Please enter a valid phone number';
+      }
     }
-    event.chipInput!.clear();
-  }
-
-  removeSuppliedItem(index: number): void {
-    const currentItems = this.supplierForm.get('suppliedItems')?.value || [];
-    const updatedItems = [...currentItems];
-    updatedItems.splice(index, 1);
-    this.supplierForm.patchValue({
-      suppliedItems: updatedItems,
-    });
+    return '';
   }
 }

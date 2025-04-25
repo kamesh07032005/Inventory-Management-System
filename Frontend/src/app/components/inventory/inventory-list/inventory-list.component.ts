@@ -4,9 +4,19 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { InventoryItem, InventoryFilter, StockLevel } from '../../../models/inventory.model';
+import {
+  InventoryItem,
+  InventoryFilter,
+  StockLevel,
+} from '../../../models/inventory.model';
 import { InventoryService } from '../../../services/inventory.service';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-inventory-list',
@@ -15,12 +25,20 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
   animations: [
     trigger('fadeInOut', [
       state('void', style({ opacity: 0, transform: 'translateY(10px)' })),
-      transition('void <=> *', animate('300ms ease-in-out'))
-    ])
-  ]
+      transition('void <=> *', animate('300ms ease-in-out')),
+    ]),
+  ],
 })
 export class InventoryListComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'name', 'category', 'quantity', 'stockLevel', 'supplierName', 'actions'];
+  displayedColumns: string[] = [
+    'id',
+    'name',
+    'category',
+    'quantity',
+    'stockLevel',
+    'supplierName',
+    'actions',
+  ];
   dataSource = new MatTableDataSource<InventoryItem>([]);
   currentFilters: InventoryFilter = {};
   isLoading = false;
@@ -46,21 +64,29 @@ export class InventoryListComponent implements OnInit {
   loadInventory(): void {
     this.isLoading = true;
     if (Object.keys(this.currentFilters).length > 0) {
-      this.inventoryService.filterInventory(this.currentFilters).subscribe(items => {
-        this.dataSource.data = items;
-        this.isLoading = false;
-      }, error => {
-        console.error('Error loading inventory:', error);
-        this.isLoading = false;
-      });
+      this.inventoryService.filterInventory(this.currentFilters).subscribe(
+        (items) => {
+          this.dataSource.data = items;
+          this.isLoading = false;
+        },
+        (error) => {
+          console.error('Error loading inventory:', error);
+          this.isLoading = false;
+          this.showErrorMessage('Error loading inventory data');
+        }
+      );
     } else {
-      this.inventoryService.getInventory().subscribe(items => {
-        this.dataSource.data = items;
-        this.isLoading = false;
-      }, error => {
-        console.error('Error loading inventory:', error);
-        this.isLoading = false;
-      });
+      this.inventoryService.getInventory().subscribe(
+        (items) => {
+          this.dataSource.data = items;
+          this.isLoading = false;
+        },
+        (error) => {
+          console.error('Error loading inventory:', error);
+          this.isLoading = false;
+          this.showErrorMessage('Error loading inventory data');
+        }
+      );
     }
   }
 
@@ -96,34 +122,37 @@ export class InventoryListComponent implements OnInit {
   deleteItem(id: number): void {
     if (confirm('Are you sure you want to delete this item?')) {
       this.isLoading = true;
-      this.inventoryService.deleteItem(id).subscribe(success => {
-        this.isLoading = false;
-        if (success) {
-          this.snackBar.open('Item deleted successfully', 'Close', {
-            duration: 3000,
-            panelClass: ['success-snackbar'],
-            verticalPosition: 'top'
-          });
-          this.loadInventory();
-        } else {
-          this.snackBar.open('Failed to delete item', 'Close', {
-            duration: 3000,
-            panelClass: ['error-snackbar'],
-            verticalPosition: 'top'
-          });
+      this.inventoryService.deleteItem(id).subscribe(
+        (success) => {
+          this.isLoading = false;
+          if (success) {
+            this.snackBar.open('Item deleted successfully', 'Close', {
+              duration: 3000,
+              panelClass: ['success-snackbar'],
+              verticalPosition: 'top',
+            });
+            this.loadInventory();
+          } else {
+            this.showErrorMessage('Failed to delete item');
+          }
+        },
+        (error) => {
+          this.isLoading = false;
+          this.showErrorMessage('Error deleting item: ' + error.message);
         }
-      }, error => {
-        this.isLoading = false;
-        this.snackBar.open('Error deleting item: ' + error.message, 'Close', {
-          duration: 4000,
-          panelClass: ['error-snackbar'],
-          verticalPosition: 'top'
-        });
-      });
+      );
     }
   }
 
   addNewItem(): void {
     this.router.navigate(['/inventory/new']);
+  }
+
+  private showErrorMessage(message: string): void {
+    this.snackBar.open(message, 'Close', {
+      duration: 4000,
+      panelClass: ['error-snackbar'],
+      verticalPosition: 'top',
+    });
   }
 }

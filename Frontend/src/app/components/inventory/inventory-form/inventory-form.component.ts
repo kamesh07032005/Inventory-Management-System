@@ -67,22 +67,9 @@ export class InventoryFormComponent implements OnInit {
       this.loadItemData(this.itemId);
     }
   }
-  
+
   onSubmit() {
-    if (this.inventoryForm.valid) {
-      // Add confirmation before submission
-      if (
-        !confirm(
-          this.isEditMode
-            ? 'Are you sure you want to update this item?'
-            : 'Are you sure you want to add this item?'
-        )
-      ) {
-        return;
-      }
-      
-      this.saveItem();
-    } else {
+    if (this.inventoryForm.invalid) {
       this.markFormGroupTouched(this.inventoryForm);
       this.snackBar.open(
         'Please fix the validation errors before submitting',
@@ -92,7 +79,20 @@ export class InventoryFormComponent implements OnInit {
           panelClass: 'error-snackbar',
         }
       );
+      return;
     }
+
+    if (
+      !confirm(
+        this.isEditMode
+          ? 'Are you sure you want to update this item?'
+          : 'Are you sure you want to add this item?'
+      )
+    ) {
+      return;
+    }
+
+    this.saveItem();
   }
 
   loadSuppliers() {
@@ -152,19 +152,6 @@ export class InventoryFormComponent implements OnInit {
   }
 
   saveItem(): void {
-    if (this.inventoryForm.invalid) {
-      // Mark all fields as touched to trigger validation messages
-      Object.keys(this.inventoryForm.controls).forEach(key => {
-        const control = this.inventoryForm.get(key);
-        control?.markAsTouched();
-      });
-      this.snackBar.open('Please fix the form errors before submitting', 'Close', {
-        duration: 5000,
-        panelClass: ['error-snackbar']
-      });
-      return;
-    }
-
     this.isSubmitting = true;
     const formValue = this.inventoryForm.value;
 
@@ -174,46 +161,46 @@ export class InventoryFormComponent implements OnInit {
       category: formValue.category,
       quantity: formValue.quantity,
       description: formValue.description || '',
-      supplierId: formValue.supplierId
+      supplierId: formValue.supplierId,
     };
 
     // Add or update based on mode
     if (this.isEditMode && this.itemId) {
-      this.inventoryService.updateItem(this.itemId, item).subscribe(
-        updatedItem => {
+      this.inventoryService.updateItem(this.itemId, item).subscribe({
+        next: () => {
           this.isSubmitting = false;
           this.snackBar.open('Inventory item updated successfully', 'Close', {
-            duration: 3000
+            duration: 3000,
           });
           this.router.navigate(['/inventory']);
         },
-        error => {
+        error: (error) => {
           this.isSubmitting = false;
           this.snackBar.open('Error updating inventory item', 'Close', {
             duration: 5000,
-            panelClass: ['error-snackbar']
+            panelClass: ['error-snackbar'],
           });
           console.error('Error updating inventory item:', error);
-        }
-      );
+        },
+      });
     } else {
-      this.inventoryService.addItem(item).subscribe(
-        newItem => {
+      this.inventoryService.addItem(item).subscribe({
+        next: () => {
           this.isSubmitting = false;
           this.snackBar.open('Inventory item added successfully', 'Close', {
-            duration: 3000
+            duration: 3000,
           });
           this.router.navigate(['/inventory']);
         },
-        error => {
+        error: (error) => {
           this.isSubmitting = false;
           this.snackBar.open('Error adding inventory item', 'Close', {
             duration: 5000,
-            panelClass: ['error-snackbar']
+            panelClass: ['error-snackbar'],
           });
           console.error('Error adding inventory item:', error);
-        }
-      );
+        },
+      });
     }
   }
 

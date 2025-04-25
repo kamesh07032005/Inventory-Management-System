@@ -14,7 +14,7 @@ export enum StockLevel {
   LOW = 'Low',
   MEDIUM = 'Medium',
   HIGH = 'High',
-  OUT_OF_STOCK = 'Out of Stock'
+  OUT_OF_STOCK = 'Out of Stock',
 }
 
 export interface InventoryFilter {
@@ -29,5 +29,5 @@ export const CATEGORIES = [
   'Clothing',
   'Food',
   'Beverages',
-  'Other'
+  'Other',
 ];

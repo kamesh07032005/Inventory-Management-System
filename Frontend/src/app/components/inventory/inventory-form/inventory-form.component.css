@@ -1,24 +1,8 @@
-/* inventory-form.component.css */
 .inventory-form-container {
   padding: 24px;
   max-width: 980px;
   margin: 0 auto;
   animation: fadeIn 0.4s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.glass-panel, .glass-card {
-  background: rgba(255, 255, 255, 0.35);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-radius: 16px;
-  box-shadow: 0 10px 40px 0 rgba(31, 38, 135, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  transition: all 0.3s ease;
 }
 
 .form-header {
@@ -27,10 +11,16 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 16px;
+  box-shadow: 0 10px 40px 0 rgba(31, 38, 135, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .page-title {
-  color: #3f51b5;
+  color: var(--primary-color);
   margin: 0;
   font-size: 32px;
   font-weight: 600;
@@ -46,7 +36,7 @@
 .breadcrumb-link {
   display: flex;
   align-items: center;
-  color: #3f51b5;
+  color: var(--primary-color);
   text-decoration: none;
   font-weight: 500;
   gap: 6px;
@@ -67,6 +57,7 @@
   position: relative;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+  border-radius: 16px;
 }
 
 .form-card:hover {
@@ -77,10 +68,26 @@
   min-height: 400px;
 }
 
-.inventory-form {
+::ng-deep .mat-horizontal-stepper-header-container {
+  margin-bottom: 24px;
+}
+
+::ng-deep .mat-stepper-horizontal-line {
+  border-top-width: 2px;
+}
+
+::ng-deep .mat-step-header .mat-step-icon {
+  background-color: var(--primary-color);
+}
+
+::ng-deep .mat-step-header .mat-step-icon-selected {
+  background-color: var(--accent-color);
+}
+
+.step-content {
+  min-height: 300px;
   display: flex;
   flex-direction: column;
-  gap: 32px;
 }
 
 .form-section {
@@ -107,6 +114,7 @@
 
 .section-title mat-icon {
   color: var(--primary-color);
+  opacity: 0.8;
 }
 
 .form-row {
@@ -129,6 +137,15 @@
   width: 100%;
 }
 
+.step-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
 .form-actions {
   display: flex;
   justify-content: flex-end;
@@ -138,15 +155,37 @@
   border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.submit-button, .cancel-button {
+.next-button,
+.back-button,
+.submit-button,
+.cancel-button {
   min-width: 120px;
   border-radius: 28px;
   transition: all 0.2s ease;
+  padding: 0 24px;
+  height: 48px;
+}
+
+.next-button {
+  background-color: var(--primary-light);
+  color: var(--primary-color);
+}
+
+.next-button:hover {
+  background-color: rgba(63, 81, 181, 0.2);
+}
+
+.submit-button {
+  box-shadow: 0 4px 12px rgba(63, 81, 181, 0.25);
 }
 
 .submit-button:hover:not([disabled]) {
   transform: translateY(-2px);
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 16px rgba(63, 81, 181, 0.35);
+}
+
+.submit-button:active:not([disabled]) {
+  transform: translateY(-1px);
 }
 
 .loading-spinner {
@@ -165,32 +204,61 @@
   opacity: 0.8;
 }
 
+.mat-error {
+  font-size: 12px;
+}
+
+/* Custom form field styling */
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: rgba(63, 81, 181, 0.2);
+}
+
+::ng-deep
+  .mat-form-field-appearance-outline.mat-focused
+  .mat-form-field-outline {
+  color: var(--primary-color);
+}
+
+::ng-deep
+  .mat-form-field-appearance-outline.mat-form-field-invalid
+  .mat-form-field-outline {
+  color: var(--error-color);
+}
+
 @media (max-width: 768px) {
   .form-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
   }
-  
+
   .form-row {
     flex-direction: column;
     gap: 0;
   }
-  
+
   .form-field {
     width: 100%;
   }
-  
+
   .form-card {
     padding: 24px;
   }
-  
+
   .form-actions {
     flex-direction: column-reverse;
     gap: 12px;
   }
-  
-  .submit-button, .cancel-button {
+
+  .submit-button,
+  .cancel-button,
+  .next-button,
+  .back-button {
     width: 100%;
+  }
+
+  .step-actions {
+    flex-direction: column-reverse;
+    gap: 12px;
   }
 }

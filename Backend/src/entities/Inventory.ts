@@ -1,7 +1,15 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
-import { Supplier } from './Supplier';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
+} from "typeorm";
+import { Supplier } from "./Supplier";
 
-@Entity('inventory')
+@Entity("inventory")
 export class Inventory {
   @PrimaryGeneratedColumn()
   id!: number;
@@ -21,8 +29,10 @@ export class Inventory {
   @Column({ nullable: true })
   supplierId!: number;
 
-  @ManyToOne(() => Supplier, supplier => supplier.inventoryItems, { onDelete: 'SET NULL' })
-  @JoinColumn({ name: 'supplierId' })
+  @ManyToOne(() => Supplier, (supplier) => supplier.inventoryItems, {
+    onDelete: "SET NULL",
+  })
+  @JoinColumn({ name: "supplierId" })
   supplier!: Supplier;
 
   @CreateDateColumn()

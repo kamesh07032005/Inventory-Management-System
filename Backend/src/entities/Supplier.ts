@@ -1,7 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
-import { Inventory } from './Inventory';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
+} from "typeorm";
+import { Inventory } from "./Inventory";
 
-@Entity('suppliers')
+@Entity("suppliers")
 export class Supplier {
   @PrimaryGeneratedColumn()
   id!: number;
@@ -21,14 +28,12 @@ export class Supplier {
   @Column({ length: 500, nullable: true })
   address!: string;
 
-  // Removed redundant suppliedItems field as the relationship is handled by inventoryItems
-
   @CreateDateColumn()
   createdAt!: Date;
 
   @UpdateDateColumn()
   updatedAt!: Date;
 
-  @OneToMany(() => Inventory, inventory => inventory.supplier)
+  @OneToMany(() => Inventory, (inventory) => inventory.supplier)
   inventoryItems!: Inventory[];
 }

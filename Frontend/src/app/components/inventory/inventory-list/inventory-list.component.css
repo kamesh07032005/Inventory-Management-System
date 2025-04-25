@@ -2,11 +2,7 @@
   padding: 24px;
   max-width: 1200px;
   margin: 0 auto;
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(10px);
-  border-radius: 12px;
-  box-shadow: 0 10px 40px 0 rgba(31, 38, 135, 0.37);
-  transition: all 0.3s ease-in-out;
+  animation: fadeIn 0.4s ease-in-out;
 }
 
 .inventory-header {
@@ -17,6 +13,11 @@
   flex-wrap: wrap;
   gap: 16px;
   position: relative;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 10px 40px 0 rgba(31, 38, 135, 0.37);
 }
 
 .inventory-header h2 {
@@ -30,13 +31,13 @@
 }
 
 .inventory-header h2::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
   width: 60px;
   height: 3px;
-  background: var(--accent-color, #ff4081);
+  background: var(--accent-color);
   border-radius: 3px;
 }
 
@@ -79,14 +80,35 @@ table {
 }
 
 .mat-mdc-row {
-  transition: all 0.2s ease;
+  position: relative;
+  cursor: pointer;
+  transition: var(--transition-standard);
   height: 60px;
+}
+
+.mat-mdc-row::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--primary-color);
+  transition: width 0.3s ease;
+}
+
+.mat-mdc-row:hover::after {
+  width: 100%;
 }
 
 .mat-mdc-row:hover {
   background-color: rgba(63, 81, 181, 0.08);
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+  color: var(--text-primary);
 }
 
 .mat-mdc-header-cell {
@@ -121,7 +143,7 @@ table {
 }
 
 .loading-spinner::after {
-  content: 'Loading inventory data...';
+  content: "Loading inventory data...";
   color: var(--primary-color);
   font-weight: 500;
   margin-top: 8px;
@@ -134,79 +156,151 @@ table {
 
 .mat-column-actions button {
   transition: all 0.2s ease;
-  opacity: 0.85;
+  opacity: 0.6;
 }
 
-.mat-column-actions button:hover {
-  transform: scale(1.15);
+.mat-mdc-row:hover .mat-column-actions button {
   opacity: 1;
+  transform: scale(1.1);
 }
 
 /* Stock level styling */
-.stock-out {
-  color: #f44336;
-  font-weight: bold;
+.stock-badge {
   display: flex;
   align-items: center;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-weight: 500;
+  width: fit-content;
 }
 
-.stock-out::before {
-  content: '';
-  display: inline-block;
+.stock-indicator {
   width: 10px;
   height: 10px;
-  background-color: #f44336;
   border-radius: 50%;
   margin-right: 8px;
+}
+
+.stock-out {
+  background-color: rgba(244, 67, 54, 0.1);
+  color: #f44336;
+}
+
+.stock-out .stock-indicator {
+  background-color: #f44336;
 }
 
 .stock-low {
+  background-color: rgba(255, 152, 0, 0.1);
   color: #ff9800;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
 }
 
-.stock-low::before {
-  content: '';
-  display: inline-block;
-  width: 10px;
-  height: 10px;
+.stock-low .stock-indicator {
   background-color: #ff9800;
-  border-radius: 50%;
-  margin-right: 8px;
 }
 
 .stock-medium {
+  background-color: rgba(33, 150, 243, 0.1);
   color: #2196f3;
-  display: flex;
-  align-items: center;
 }
 
-.stock-medium::before {
-  content: '';
-  display: inline-block;
-  width: 10px;
-  height: 10px;
+.stock-medium .stock-indicator {
   background-color: #2196f3;
-  border-radius: 50%;
-  margin-right: 8px;
 }
 
 .stock-high {
+  background-color: rgba(76, 175, 80, 0.1);
   color: #4caf50;
-  display: flex;
-  align-items: center;
 }
 
-.stock-high::before {
-  content: '';
-  display: inline-block;
-  width: 10px;
-  height: 10px;
+.stock-high .stock-indicator {
   background-color: #4caf50;
-  border-radius: 50%;
-  margin-right: 8px;
+}
+
+/* Skeleton loader */
+.skeleton-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+
+.skeleton-row {
+  display: flex;
+  gap: 16px;
+  height: 60px;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.skeleton-cell {
+  height: 24px;
+  border-radius: 4px;
+  background: linear-gradient(
+    90deg,
+    rgba(227, 227, 227, 0.4) 25%,
+    rgba(227, 227, 227, 0.7) 50%,
+    rgba(227, 227, 227, 0.4) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeleton-id {
+  width: 40px;
+}
+
+.skeleton-name {
+  width: 180px;
+}
+
+.skeleton-category {
+  width: 120px;
+}
+
+.skeleton-quantity {
+  width: 60px;
+}
+
+.skeleton-stock {
+  width: 100px;
+}
+
+.skeleton-supplier {
+  width: 150px;
+}
+
+.skeleton-actions {
+  width: 100px;
+}
+
+/* Empty state styling */
+.mat-no-data-row td {
+  padding: 24px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.6);
+  font-style: italic;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0;
+  gap: 16px;
+}
+
+.empty-state-icon {
+  font-size: 48px;
+  height: 48px;
+  width: 48px;
+  color: rgba(63, 81, 181, 0.3);
+}
+
+.empty-state-text {
+  font-size: 16px;
+  color: var(--text-secondary);
 }
 
 /* Responsive adjustments */
@@ -216,24 +310,24 @@ table {
     align-items: flex-start;
     gap: 16px;
   }
-  
+
   .mat-column-id,
   .mat-column-quantity {
     max-width: 80px;
   }
-  
+
   .mat-column-actions {
     width: 100px;
   }
-  
+
   .inventory-container {
     padding: 16px;
   }
-  
+
   .table-container {
     padding: 12px;
   }
-  
+
   .mat-mdc-header-cell,
   .mat-mdc-cell {
     padding: 8px 4px;
@@ -243,18 +337,39 @@ table {
 
 /* Animation for row entry */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .mat-mdc-row {
   animation: fadeIn 0.3s ease-out forwards;
 }
 
-/* Empty state styling */
-.mat-no-data-row td {
-  padding: 24px;
-  text-align: center;
-  color: rgba(0, 0, 0, 0.6);
+.supplied-items-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  max-width: 300px;
+}
+
+.mat-column-suppliedItems {
+  min-width: 200px;
+  max-width: 300px;
+}
+
+.mat-mdc-chip {
+  font-size: 12px !important;
+  min-height: 24px !important;
+}
+
+.no-items {
+  color: rgba(0, 0, 0, 0.54);
   font-style: italic;
+  font-size: 14px;
 }

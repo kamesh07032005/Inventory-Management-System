@@ -1,7 +1,8 @@
-<!-- supplier-form.component.html -->
 <div class="supplier-form-container">
   <div class="form-header glass-panel">
-    <h2 class="page-title">{{ isEditMode ? 'Edit Supplier' : 'Add New Supplier' }}</h2>
+    <h2 class="page-title">
+      {{ isEditMode ? "Edit Supplier" : "Add New Supplier" }}
+    </h2>
     <div class="breadcrumb">
       <a [routerLink]="['/suppliers']" class="breadcrumb-link">
         <mat-icon>arrow_back</mat-icon>
@@ -13,108 +14,147 @@
   <div class="glass-card form-card" [class.loading]="isLoading">
     <div *ngIf="isLoading" class="loading-spinner">
       <mat-spinner diameter="40"></mat-spinner>
-      <span class="loading-text">{{ isEditMode ? 'Loading supplier data...' : 'Preparing form...' }}</span>
+      <span class="loading-text">{{
+        isEditMode ? "Loading supplier data..." : "Preparing form..."
+      }}</span>
     </div>
 
-    <form [formGroup]="supplierForm" (ngSubmit)="onSubmit()" class="supplier-form" *ngIf="!isLoading">
+    <form
+      [formGroup]="supplierForm"
+      (ngSubmit)="onSubmit()"
+      class="supplier-form"
+      *ngIf="!isLoading"
+    >
       <!-- Company Information Section -->
       <div class="form-section">
         <div class="section-title">
           <mat-icon>business</mat-icon>
           <span>Company Information</span>
         </div>
-        
+
         <div class="form-row">
           <mat-form-field appearance="outline" class="form-field">
             <mat-label>Company Name</mat-label>
-            <input matInput formControlName="name" placeholder="Enter company name">
+            <input
+              matInput
+              formControlName="name"
+              placeholder="Enter company name"
+            />
             <mat-icon matSuffix>domain</mat-icon>
-            <mat-error *ngIf="supplierForm.get('name')?.invalid && supplierForm.get('name')?.touched">
-              {{ getErrorMessage('name') }}
+            <mat-error
+              *ngIf="
+                supplierForm.get('name')?.invalid &&
+                supplierForm.get('name')?.touched
+              "
+            >
+              {{ getErrorMessage("name") }}
             </mat-error>
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="form-field">
             <mat-label>Contact Person</mat-label>
-            <input matInput formControlName="contactName" placeholder="Enter contact person name">
+            <input
+              matInput
+              formControlName="contactName"
+              placeholder="Enter contact person name"
+            />
             <mat-icon matSuffix>person</mat-icon>
-            <mat-error *ngIf="supplierForm.get('contactName')?.invalid && supplierForm.get('contactName')?.touched">
-              {{ getErrorMessage('contactName') }}
+            <mat-error
+              *ngIf="
+                supplierForm.get('contactName')?.invalid &&
+                supplierForm.get('contactName')?.touched
+              "
+            >
+              {{ getErrorMessage("contactName") }}
             </mat-error>
           </mat-form-field>
         </div>
-      </div>
 
-      <!-- Contact Information Section -->
-      <div class="form-section">
-        <div class="section-title">
-          <mat-icon>contact_mail</mat-icon>
-          <span>Contact Information</span>
-        </div>
-        
         <div class="form-row">
           <mat-form-field appearance="outline" class="form-field">
             <mat-label>Email</mat-label>
-            <input matInput formControlName="email" placeholder="Enter email address" type="email">
+            <input
+              matInput
+              formControlName="email"
+              placeholder="Enter email address"
+              type="email"
+            />
             <mat-icon matSuffix>email</mat-icon>
-            <mat-error *ngIf="supplierForm.get('email')?.invalid && supplierForm.get('email')?.touched">
-              {{ getErrorMessage('email') }}
+            <mat-error
+              *ngIf="
+                supplierForm.get('email')?.invalid &&
+                supplierForm.get('email')?.touched
+              "
+            >
+              {{ getErrorMessage("email") }}
             </mat-error>
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="form-field">
             <mat-label>Phone</mat-label>
-            <input matInput formControlName="phone" placeholder="Enter phone number">
+            <input
+              matInput
+              formControlName="phone"
+              placeholder="Enter phone number"
+            />
             <mat-icon matSuffix>phone</mat-icon>
-            <mat-error *ngIf="supplierForm.get('phone')?.invalid && supplierForm.get('phone')?.touched">
-              {{ getErrorMessage('phone') }}
+            <mat-error
+              *ngIf="
+                supplierForm.get('phone')?.invalid &&
+                supplierForm.get('phone')?.touched
+              "
+            >
+              {{ getErrorMessage("phone") }}
             </mat-error>
           </mat-form-field>
         </div>
 
         <mat-form-field appearance="outline" class="form-field full-width">
           <mat-label>Address</mat-label>
-          <textarea matInput formControlName="address" placeholder="Enter full address" rows="3"></textarea>
+          <textarea
+            matInput
+            formControlName="address"
+            placeholder="Enter full address"
+            rows="3"
+          ></textarea>
           <mat-icon matSuffix>location_on</mat-icon>
-          <mat-error *ngIf="supplierForm.get('address')?.invalid && supplierForm.get('address')?.touched">
-            {{ getErrorMessage('address') }}
+          <mat-error
+            *ngIf="
+              supplierForm.get('address')?.invalid &&
+              supplierForm.get('address')?.touched
+            "
+          >
+            {{ getErrorMessage("address") }}
           </mat-error>
         </mat-form-field>
       </div>
 
-      <!-- Products Section -->
-      <div class="form-section">
-        <div class="section-title">
-          <mat-icon>inventory_2</mat-icon>
-          <span>Supplied Products</span>
-        </div>
-        
-        <mat-form-field appearance="outline" class="form-field full-width">
-          <mat-label>Items Supplied</mat-label>
-          <mat-chip-grid #chipGrid aria-label="Enter supplied items" class="supplied-items-chip-grid">
-            <mat-chip-row *ngFor="let item of supplierForm.get('suppliedItems')?.value || []; let i = index"
-                        (removed)="removeSuppliedItem(i)" [highlighted]="true">
-              {{item}}
-              <button matChipRemove [attr.aria-label]="'remove ' + item">
-                <mat-icon>cancel</mat-icon>
-              </button>
-            </mat-chip-row>
-            <input placeholder="Add item and press Enter..."
-                  [matChipInputFor]="chipGrid"
-                  (matChipInputTokenEnd)="addSuppliedItem($event)">
-          </mat-chip-grid>
-          <mat-hint align="start">Press Enter after typing each item</mat-hint>
-        </mat-form-field>
-      </div>
-
       <div class="form-actions">
-        <button mat-button type="button" (click)="onCancel()" [disabled]="isSubmitting" class="cancel-button">
+        <button
+          mat-button
+          type="button"
+          (click)="onCancel()"
+          [disabled]="isSubmitting"
+          class="cancel-button"
+        >
           <mat-icon>close</mat-icon>
           Cancel
         </button>
-        <button mat-raised-button color="primary" type="submit" [disabled]="isSubmitting || supplierForm.invalid" class="submit-button">
-          <mat-icon>{{ isSubmitting ? 'hourglass_top' : (isEditMode ? 'update' : 'save') }}</mat-icon>
-          {{ isSubmitting ? 'Saving...' : (isEditMode ? 'Update Supplier' : 'Add Supplier') }}
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="isSubmitting"
+          class="submit-button"
+        >
+          <mat-icon>{{ isEditMode ? "update" : "add_circle" }}</mat-icon>
+          {{
+            isSubmitting
+              ? "Saving..."
+              : isEditMode
+              ? "Update Supplier"
+              : "Add Supplier"
+          }}
         </button>
       </div>
     </form>
