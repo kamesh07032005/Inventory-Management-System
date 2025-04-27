@@ -10,7 +10,7 @@ A comprehensive full-stack web application for managing inventory, suppliers, pr
 This project is proudly developed by:
   Kamesh M
   Roshne priya V
-  Dharashnin N
+  Dharashini N
 
 We're excited to bring you this inventory management application and welcome your feedback!
 
